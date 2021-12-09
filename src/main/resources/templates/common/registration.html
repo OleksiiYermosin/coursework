@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="#{registration.page.action}">Driving school</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+	<link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+	<header th:replace="/common/fragment :: header" class="header">
+</header>
+	<section class="content">
+		<div class="container">
+			<div class="row">
+				<div class="contentRow">
+					<div class="f" th:text="#{registration.page.action}"></div>
+					<form action="/register" method="post" class="login" th:object="${newUser}">
+						<input type="text" name="username" pattern="^[A-Za-z][A-Za-z0-9_-]{3,25}$"
+							   th:placeholder="#{login.placeholder}" required>
+						<input type="text" name="surname" pattern="[A-Z][a-z]{1,24}|[А-ЯЁІЇ][а-яёії']{1,24}"
+							   th:placeholder="#{surname.placeholder}" required>
+						<input type="text" name="name" pattern="[A-Z][a-z]{1,24}|[А-ЯЁІЇ][а-яёії']{1,19}"
+							   th:placeholder="#{name.placeholder}" required>
+						<input type="number" name="age" min="18"
+							   th:placeholder="#{age.placeholder}" required>
+						<input type="password" name="password" pattern="^[A-Z][A-Za-z0-9_-]{5,25}$"
+							   th:placeholder="#{password.placeholder}" required>
+						<input type="submit" class="buttonAll" th:value="#{registration.page.title}">
+					</form>
+					<p class="register" th:text="#{login.prompt.text}"></p>
+					<a href="/login" th:text="#{login.redirect.button}"></a>
+				</div>
+			</div>
+
+		</div>
+	</section>
+	<footer th:replace="/common/fragment :: footer" class="footer">
+	</footer>
+</body>
+</html>

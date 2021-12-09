@@ -1,0 +1,31 @@
+<link th:fragment="css" rel="stylesheet" th:href="@{/css/main.css}">
+
+<script th:fragment="js" th:src="@{/js/main.js}"></script>
+
+<header th:fragment="header" class="header">
+    <div class="nav">
+        <div class="container">
+            <div class="text">
+                <div class="title">Driving School</div>
+                <div class="users">
+                    <div sec:authorize="hasRole('STUDENT')" class="exit"><a href="/student/" th:text="#{header.menu.courses}"></a></div>
+                    <div sec:authorize="isAuthenticated()" class="adminName" th:text="${user.getName()}"></div>
+                    <div sec:authorize="isAuthenticated()" class="exit"><a href="/logout" th:text="#{header.logout.value}"></a></div>
+                    <div sec:authorize="!isAuthenticated()" class="exit"><a href="/login" th:text="#{login.page.action}"></a></div>
+                    <form class="local" method="get" th:action="${#httpServletRequest.requestURI}">
+                        <input type="submit" name="locale" th:value="#{locale.button.text}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<footer th:fragment="footer" class="footer">
+    <div class="container">
+        <div class="footContent">
+            <div class="fText" th:text="#{footer.course.task.text}"></div>
+            <div class="fText"><b th:text="#{footer.course.name.text}"></b></div>
+        </div>
+    </div>
+</footer>

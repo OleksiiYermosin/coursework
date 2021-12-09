@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="#{courses.page.title}"></title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+	<link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+	<header th:replace="/common/fragment :: header" class="header">
+	</header>
+	<section class="content">
+		<div class="container">
+			<div class="row">
+				<div class="contentRow">
+					<div class="contentPart">
+						<div class="inside">
+							<div class="f" th:text="#{courses.search.prompt}"></div>
+							<div class="search">
+								<form action="" class="find">
+									<div class="byName">
+										<input type="text" th:placeholder="#{courses.name.placeholder}" class="enterName" name="name">
+										<input type="submit" th:value="#{courses.search.value}">
+									</div>
+								</form>
+								<form action="" class="find">
+									<div class="buttonAll">
+										<input type="submit" th:value="#{courses.show.all.value}">
+									</div>
+								</form>
+								<div class="showSearchRes">
+									<form th:each="course : ${courses}" class="res">
+										<div class="accordion">
+											<p class="pesP" th:text="${course.getName()}"></p>
+											<input type="submit" th:value="#{courses.enroll.value}">
+										</div>
+										<div class="panel">
+											<p th:text="#{courses.hours.prompt} + ${': ' + course.getLessonsAmount()}"></p>
+											<p th:text="#{courses.category.prompt} + ${': ' + course.getCategory().getName()}"></p>
+											<p th:text="#{courses.rating.prompt} + ${': ' + course.getRating() + '★'}"></p>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+	<script th:replace="/common/fragment :: js"></script>
+</body>
+</html>
