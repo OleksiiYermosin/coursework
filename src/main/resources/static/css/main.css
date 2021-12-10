@@ -143,6 +143,13 @@ input[type="submit"]{
 .row{
 	display: flex;
 	justify-content: center;
+	align-items: flex-start;
+	height: 100%;
+    width: 100%;
+}
+.row-autorize{
+	display: flex;
+	justify-content: center;
 	align-items: center;
 	height: 100%;
     width: 100%;
@@ -156,6 +163,70 @@ input[type="submit"]{
 	align-items: center;
 	/*height: 100%;*/
 	width: 95%;
+}
+.contentUC{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/*height: 100%;*/
+	width: 95%;
+	margin: 0 -33px 0 0;
+}
+.user-courses{
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	width: 100%;
+}
+.user-course{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 33px 30px 0;
+	width: 22%;
+	background: white;
+	/*border: 1px solid #F76E1E;*/
+	border-radius: 10px;
+	overflow: hidden;
+	height: 250px;
+	box-shadow: 5px 5px 9px rgba(0, 0, 0, 0.25);
+	transition: all 0.5s ease;
+}
+.uc-name{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	height: 33.333%;
+	font-size: 24px;
+	text-shadow: 1px 1px 2px darkgoldenrod;
+	border-bottom: 1px solid #7B715D;
+}
+.uc-progress{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 0 0 0 3%;
+	font-weight: 300;
+	font-size: 16px;
+	height: 33.333%;
+	flex: 1 1 auto;
+}
+.uc-progress p{
+	padding: 0 0 3% 0;
+}
+.uc-progress p:last-child{
+	padding: 0;
+}
+.uc-details{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #7B715D;
+	height: 33.333%;
+	transition: all 0.5s ease;
+	cursor: pointer;
 }
 .contentPart{
 	display: flex;
@@ -196,9 +267,30 @@ input[type="submit"]{
 }
 .search{
 	width: 100%;
+	display: flex;
+    flex-direction: column;
+}
+.find{
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.lessonsStat{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin: 0 30px 30px 0;
+}
+.lessonsStat p{
+	padding: 0 0 15px 0;
+}
+.lessonsStat p:last-child{
+	padding: 0;
 }
 .byName{
 	display: flex;
+	width: 100%;
 	justify-content: space-between;
 	margin: 0 0 20px 0;
 }
@@ -208,6 +300,10 @@ input{
 	border: 1px solid #24221E;
 	border-radius: 10px;
 
+}
+.buttonAll input[type="number"]{
+	width: 150px;
+	padding: 0 0 0 3%;
 }
 .byName input[type="text"]{
 	width: 93%;
@@ -233,7 +329,7 @@ input[type="submit"]{
 .res input[type="submit"]{
 	background: #F76E1E;
 	border: none;
-	width: 10%;
+	width: 15%;
 }
 .byName input[type="submit"]{
 	background: #24221E;
@@ -339,6 +435,11 @@ input[type="submit"]{
 	font-size: 20px;
 	text-shadow: 1px 1px 2px darkgoldenrod;
 }
+.uc-details a{
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
 /*--------------------*/
 
 /*---Hovering---*/
@@ -369,6 +470,13 @@ input[type="submit"]{
 input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="number"]:focus{
 	border: 2px solid #24221E;
 	box-shadow: 2px 2px 7px 5px rgba(49, 43, 43, 0.1);
+}
+.user-course:hover{
+    box-shadow: 9px 9px 9px rgba(0, 0, 0, 0.3);
+}
+.uc-details:hover{
+	background: #F76E1E;
+	font-size: 20px;
 }
 /*--------------------*/
 
