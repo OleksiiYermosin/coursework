@@ -38,18 +38,28 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 /*--------------------*/
 
 body{
-	background: url('../img/bg1.jpg') center/cover no-repeat fixed;
+	
 	font-family: 'Comfortaa', sans-serif;
 }
 .body{
 	display: flex;
 	flex-direction: column;
+	background: url('../img/bg1.jpg') center/cover no-repeat fixed;
+}
+.fs-body{
+	display: flex;
+	flex-direction: column;
+	background: url('../img/fsBg4.jpg') center/cover no-repeat fixed;
 }
 .container{
 	margin: 0 auto;
 	padding-left: 0px;
 	padding-right: 0px;
 	width: 1170px;
+}
+
+input[type="submit"]{
+	cursor: pointer;
 }
 
 /*---Header---*/
@@ -79,6 +89,10 @@ body{
 	font-weight: bold;
 	font-size: 25px;
 	transition: all 0.5s ease;
+}
+.title a{
+	color: white;
+	text-decoration: none;
 }
 .users{
 	display: flex;
@@ -117,6 +131,10 @@ body{
 	display: flex;
 	flex: 1 1 auto;
 }
+.content-fs{
+	display: flex;
+	flex: 1 1 auto;
+}
 .content .container{
 	background: rgba(255, 236, 153, 0.76);
 	padding: 20px 0 50px 0;
@@ -128,6 +146,9 @@ body{
 	align-items: center;
 	height: 100%;
     width: 100%;
+}
+.content-fs .container .row{
+	justify-content: flex-start;
 }
 .contentRow{
 	display: flex;
@@ -146,6 +167,24 @@ body{
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+}
+.intro{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 50%;
+}
+.h-main{
+	font-weight: bold;
+	font-size: 55px;
+	line-height: 70px;
+	margin: 0 0 28px 0;
+}
+.h-small{
+	font-weight: 300;
+	font-size: 24px;
+	line-height: 30px;
+	margin: 0 0 28px 0;
 }
 .f{
 	display: flex;
@@ -204,12 +243,19 @@ input[type="submit"]{
 	display: flex;
 	justify-content: center;
 }
+.go-to .buttonAll{
+	justify-content: flex-start;
+	height: 60px;
+}
 .buttonAll input[type="submit"]{
 	width: 300px;
 	height: 40px;
 	background: #24221E;
 	color: white;
 	margin: 0 0 20px 0;
+}
+.go-to .buttonAll input[type="submit"]{
+	height: 60px;
 }
 .showSearchRes{
 	background: rgba(255, 255, 255, 1);

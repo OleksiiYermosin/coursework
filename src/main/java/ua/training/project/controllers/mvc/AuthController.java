@@ -21,6 +21,11 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @GetMapping("/")
+    public String getHomePage(){
+        return "/common/index";
+    }
+
     @GetMapping("/login")
     public String getLoginPage(){
         return "/common/login";
