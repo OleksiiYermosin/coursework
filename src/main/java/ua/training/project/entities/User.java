@@ -1,9 +1,6 @@
 package ua.training.project.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 import static ua.training.project.utils.PatternsHolder.*;
 
@@ -48,6 +46,11 @@ public class User implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user")
+    private Set<Attendance> attendances;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,102 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Driving school</title>
-
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{my.courses.page.title}"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css">
 </head>
 <body class="body">
-	<section class="content">
-		<div class="container">
-			<div class="row">
-				<div class="contentUC">
-					<div class="f">Ваші курси</div>
-					<div class="user-courses">
-						<div class="user-course">
-							<div class="uc-name">
-								<p>Course 1</p>
-							</div>
-							<div class="uc-progress">
-								<p>Passed: 10</p>
-								<p>Failed: 3</p>
-							</div>
-							<div class="uc-details">
-								<a href="">Details</a>
-							</div>
-						</div>
-						<div class="user-course">
-							<div class="uc-name">
-								<p>Course 1</p>
-							</div>
-							<div class="uc-progress">
-								<p>Passed: 10</p>
-								<p>Failed: 3</p>
-							</div>
-							<div class="uc-details">
-								<a href="">Details</a>
-							</div>
-						</div>
-						<div class="user-course">
-							<div class="uc-name">
-								<p>Course 1</p>
-							</div>
-							<div class="uc-progress">
-								<p>Passed: 10</p>
-								<p>Failed: 3</p>
-							</div>
-							<div class="uc-details">
-								<a href="">Details</a>
-							</div>
-						</div>
-						<div class="user-course">
-							<div class="uc-name">
-								<p>Course 1</p>
-							</div>
-							<div class="uc-progress">
-								<p>Passed: 10</p>
-								<p>Failed: 3</p>
-							</div>
-							<div class="uc-details">
-								<a href="">Details</a>
-							</div>
-						</div>
-						<div class="user-course">
-							<div class="uc-name">
-								<p>Course 1</p>
-							</div>
-							<div class="uc-progress">
-								<p>Passed: 10</p>
-								<p>Failed: 3</p>
-							</div>
-							<div class="uc-details">
-								<a href="">Details</a>
-							</div>
-						</div>
-						<div class="user-course">
-							<div class="uc-name">
-								<p>Course 1</p>
-							</div>
-							<div class="uc-progress">
-								<p>Passed: 10</p>
-								<p>Failed: 3</p>
-							</div>
-							<div class="uc-details">
-								<a href="">Details</a>
-							</div>
-						</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</section>
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="contentUC">
+                <div class="f" th:text="#{my.courses.page.action}"></div>
+                <div class="user-courses" th:each="course:${courses}">
+                    <div class="user-course">
+                        <div class="uc-name">
+                            <p th:text="${course.getCourse().getName()}"></p>
+                        </div>
+                        <div class="uc-progress">
+                            <p th:text="#{my.courses.page.passed.value} + ${course.getPassedAmount()}"></p>
+                            <p th:text="#{my.courses.page.failed.value} + ${course.getFailedAmount()}"></p>
+                        </div>
+                        <div class="uc-details">
+                            <a th:href="@{/student/myCourses/{id}(id=${course.getCourse().getId()})}">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
 </body>
 </html>

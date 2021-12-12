@@ -21,27 +21,28 @@
 						<div class="inside">
 							<div class="f" th:text="#{courses.search.prompt}"></div>
 							<div class="search">
-								<form action="" class="find">
+								<form action="/student" method="get" class="find">
 									<div class="byName">
 										<input type="text" th:placeholder="#{courses.name.placeholder}" class="enterName" name="name">
 										<input type="submit" th:value="#{courses.search.value}">
 									</div>
 								</form>
-								<form action="" class="find">
+								<form action="/student" method="get" class="find">
 									<div class="buttonAll">
 										<input type="submit" th:value="#{courses.show.all.value}">
 									</div>
 								</form>
 								<div class="showSearchRes">
-									<form th:each="course : ${courses}" class="res">
+									<form th:each="course : ${courses}" action="/student/enrollUser" method="post" class="res">
 										<div class="accordion">
-											<p class="pesP" th:text="${course.getName()}"></p>
-											<input type="submit" th:value="#{courses.enroll.value}">
+											<p class="pesP" th:text="${course.getCourse().getName()}"></p>
+											<input type="hidden" th:value="${course.getCourse().getId()}" name="courseId">
+											<input type="submit" th:disabled="${course.isCurrentUserEnrolled()}" th:value="#{courses.enroll.value}">
 										</div>
 										<div class="panel">
-											<p th:text="#{courses.hours.prompt} + ${': ' + course.getLessonsAmount()}"></p>
-											<p th:text="#{courses.category.prompt} + ${': ' + course.getCategory().getName()}"></p>
-											<p th:text="#{courses.rating.prompt} + ${': ' + course.getRating() + '★'}"></p>
+											<p th:text="#{courses.hours.prompt} + ${': ' + course.getCourse().getLessonsAmount()}"></p>
+											<p th:text="#{courses.category.prompt} + ${': ' + course.getCourse().getCategory().getName()}"></p>
+											<p th:text="#{courses.rating.prompt} + ${': ' + course.getCourse().getRating() + '★'}"></p>
 										</div>
 									</form>
 								</div>

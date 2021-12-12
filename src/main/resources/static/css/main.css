@@ -196,6 +196,7 @@ input[type="submit"]{
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 	font-weight: bold;
 	height: 33.333%;
 	font-size: 24px;
@@ -403,6 +404,24 @@ input[type="submit"]{
   	font-weight: bold;
 
 }
+
+.minuses{
+	display: flex;
+	width: 100%;
+	align-items: flex-start;
+	justify-content: space-between;
+
+}
+.note{
+	width: 90%;
+	font-weight: 300;
+}
+.penalty{
+	/*width: 15%;*/
+	display: inline-block;
+	justify-content: flex-end;
+}
+
 .panel.show{
   	display: block;
 }
