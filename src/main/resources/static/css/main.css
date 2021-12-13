@@ -24,7 +24,7 @@ html,body{
 	-moz-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 }
-input,button,textarea{font-family:inherit;}
+input,button,textarea, select, option{font-family:inherit;}
 
 input::-ms-clear{display: none;}
 button{cursor: pointer;}
@@ -196,8 +196,8 @@ input[type="submit"]{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	text-align: center;
 	font-weight: bold;
+	text-align: center;
 	height: 33.333%;
 	font-size: 24px;
 	text-shadow: 1px 1px 2px darkgoldenrod;
@@ -277,6 +277,11 @@ input[type="submit"]{
     justify-content: space-between;
     align-items: flex-start;
 }
+.mark{
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .lessonsStat{
 	display: flex;
 	flex-direction: column;
@@ -300,11 +305,26 @@ input{
 	background: rgba(255, 255, 255, 1);
 	border: 1px solid #24221E;
 	border-radius: 10px;
-
+	padding-left: 1%;
 }
-.buttonAll input[type="number"]{
+input[type="submit"]{
+	padding: 0;
+}
+.buttonRate{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+.buttonRate input[type="number"]{
 	width: 150px;
-	padding: 0 0 0 3%;
+	height: 30px;
+	margin: 0 0 10px 0;
+}
+.buttonRate input[type="submit"]{
+	width: 150px;
+	height: 30px;
+	font-size: 14px;
 }
 .byName input[type="text"]{
 	width: 93%;
@@ -331,6 +351,9 @@ input[type="submit"]{
 	background: #F76E1E;
 	border: none;
 	width: 15%;
+}
+.res input[disabled="disabled"]{
+	background: #FE9A60;
 }
 .byName input[type="submit"]{
 	background: #24221E;
@@ -372,6 +395,12 @@ input[type="submit"]{
 	padding: 10px 0 10px 0;
 	border-bottom: 5px dotted #F76E1E;
 }
+.student{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 10px 10px 10px;
+}
 .accordion{
 	display: flex;
 	justify-content: space-between;
@@ -402,9 +431,7 @@ input[type="submit"]{
   	border-radius: 10px;
   	border-radius: 0 0 10px 10px;
   	font-weight: bold;
-
 }
-
 .minuses{
 	display: flex;
 	width: 100%;
@@ -421,7 +448,6 @@ input[type="submit"]{
 	display: inline-block;
 	justify-content: flex-end;
 }
-
 .panel.show{
   	display: block;
 }
@@ -459,6 +485,85 @@ input[type="submit"]{
 	color: white;
 	text-decoration: none;
 }
+.selects{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	margin: 0 0 20px 0;
+}
+.selects input[type="number"]{
+	width: 24%;
+	border: 1px solid #24221E;
+    border-radius: 10px 10px 0 0;
+}
+.events{
+	width: 24%;
+	height: 40px;
+	border: 1px solid #24221E;
+    border-radius: 10px 10px 0 0;
+    padding-left: 1%;
+    transition: all 0.5s ease;
+}
+.events.third{
+	width: 90%;
+	border-radius: 10px 0 0 0;
+    padding-left: 0;
+}
+.mist{
+	display: flex;
+	align-content: flex-start;
+	width: 24%;
+}
+.mist input[type="submit"]{
+	border-radius: 0 10px 0 0;
+	color: #24221E;
+	box-shadow: none;
+	background: white;
+	width: 40px;
+	transition: all 0.5s ease;
+}
+.userStat{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	margin: 0 0 30px 0;
+}
+.userImg{
+	flex: 0 0 15%;
+	position: relative;
+	border: 1px solid #24221E;
+	overflow: hidden;
+	border-radius: 10px;
+}
+.userImg img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.userInfo{
+	width: 80%;
+	line-height: 120%;
+}
+.userInfo p{
+	padding: 0 0 10px 0;
+}
+.userInfo p:first-child{
+	font-weight: bold;
+}
+.userInfo p:last-child{
+	padding: 0;
+}
+.errorContent{
+	font-size: 20px;
+	line-height: 24px;
+}
+.errorContent p{
+	padding: 0 0 10px 40px;
+	background: url('../img/error.png')top left no-repeat;
+}
 /*--------------------*/
 
 /*---Hovering---*/
@@ -466,17 +571,15 @@ input[type="submit"]{
 	text-decoration: underline;
 	color: #FA6417;
 }
-.local input[type="submit"]:hover{
-	border: 3.1px solid #FA6417;
-	color: #FA6417;
-}
-.login input[type="submit"]:hover, .buttonAll input[type="submit"]:hover{
+input[type="submit"]:hover, input[type="submit"]:hover{
 	background: #F76E1E;
 	border: none;
 	box-shadow: 0px 3px 0px rgba(36, 34, 30, 0.25);
 	top: 2px;
 }
 .byName input[type="submit"]:hover{
+	top: 0px;
+	box-shadow: none;
 	background: #F76E1E;
 	border: none;
 }
@@ -486,7 +589,20 @@ input[type="submit"]{
 	box-shadow: 0px 3px 0px rgba(36, 34, 30, 0.25);
 	top: 2px;
 }
-input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="number"]:focus{
+.res input[disabled="disabled"]:hover{
+	cursor: default;
+	background: #FE9A60;
+	border: none;
+	box-shadow: 0px 5px 0px rgba(36, 34, 30, 0.25);
+	top: 0px;
+}
+.local input[type="submit"]:hover{
+	border: 3.1px solid #FA6417;
+	color: #FA6417;
+	background: none;
+	top: 0;
+}
+select:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="number"]:focus{
 	border: 2px solid #24221E;
 	box-shadow: 2px 2px 7px 5px rgba(49, 43, 43, 0.1);
 }
@@ -496,6 +612,12 @@ input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:fo
 .uc-details:hover{
 	background: #F76E1E;
 	font-size: 20px;
+}
+.mist input[type="submit"]:hover{
+	border: 2px solid #24221E;
+	box-shadow: 2px 2px 7px 5px rgba(49, 43, 43, 0.1);
+	background: white;
+	top: 0;
 }
 /*--------------------*/
 

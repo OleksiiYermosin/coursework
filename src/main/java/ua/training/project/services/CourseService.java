@@ -9,7 +9,6 @@ import ua.training.project.dto.UserCoursesDTO;
 import ua.training.project.entities.Attendance;
 import ua.training.project.entities.Course;
 import ua.training.project.entities.Training;
-import ua.training.project.entities.User;
 import ua.training.project.exceptions.IncorrectCourseException;
 import ua.training.project.repositories.AttendanceRepository;
 import ua.training.project.repositories.CourseRepository;
@@ -17,6 +16,7 @@ import ua.training.project.repositories.TrainingRepository;
 import ua.training.project.repositories.UserRepository;
 import ua.training.project.utils.AttendanceKey;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -76,16 +76,34 @@ public class CourseService {
                 filter(a -> a.getCourse().getId().equals(courseId)).findFirst().orElseThrow(IncorrectCourseException::new);
         List<Training> trainings = trainingRepository.findByCourseIdAndUserId(courseId, userId);
         return new CourseInfoDTO(courseAttendance.getCourse().getLessonsAmount(), courseAttendance.getMissedLessonsAmount(),
-                courseAttendance.getAttendedLessonsAmount(), trainings, courseAttendance.getCourse().getName());
+                courseAttendance.getAttendedLessonsAmount(), courseAttendance.getRate(), trainings,
+                courseAttendance.getCourse().getName(), courseId);
     }
 
     @Transactional
-    public boolean enrollUserInNewCourse(Long userId, Long courseId){
+    public void enrollUserInNewCourse(Long userId, Long courseId){
         AttendanceKey key = new AttendanceKey(userId, courseId);
         Attendance attendance = new Attendance(key, userRepository.getById(userId), courseRepository.getById(courseId),
-                0, 0, false);
+                0, 0, false, null);
         attendanceRepository.save(attendance);
-        return true;
+    }
+
+    public void rateCourse(Long userId, Long courseId, Integer rate){
+        Attendance attendance = userRepository.getById(userId).getAttendances().stream().
+                filter(a -> a.getCourse().getId().equals(courseId)).findFirst().orElseThrow(IncorrectCourseException::new);
+        attendance.setRate(rate);
+        attendanceRepository.save(attendance);
+        updateCourseRating(courseId);
+    }
+
+    private void updateCourseRating(Long courseId){
+        Course course = courseRepository.getById(courseId);
+        long count = course.getAttendances().stream().filter(a -> a.getRate() != null).count();
+        int sum = course.getAttendances().stream().filter(a -> a.getRate() != null).mapToInt(Attendance::getRate).sum();
+        if (count != 0){
+            course.setRating(BigDecimal.valueOf(sum/count));
+            courseRepository.save(course);
+        }
     }
 
 }

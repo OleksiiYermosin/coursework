@@ -18,8 +18,12 @@ public class CourseInfoDTO {
 
     private Integer attendedLessonsAmount;
 
+    private Integer rate;
+
     private List<Training> trainings;
 
     private String courseName;
+
+    private Long courseId;
 
 }

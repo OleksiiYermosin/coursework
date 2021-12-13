@@ -1,16 +1,19 @@
 package ua.training.project.entities;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "courses")
+@DynamicUpdate
 public class Course {
 
     @Id

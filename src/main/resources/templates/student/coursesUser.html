@@ -18,8 +18,8 @@
         <div class="row">
             <div class="contentUC">
                 <div class="f" th:text="#{my.courses.page.action}"></div>
-                <div class="user-courses" th:each="course:${courses}">
-                    <div class="user-course">
+                <div class="user-courses" >
+                    <div class="user-course" th:each="course:${courses}">
                         <div class="uc-name">
                             <p th:text="${course.getCourse().getName()}"></p>
                         </div>

@@ -44,6 +44,12 @@ public class StudentController {
         return "student/courseInfo";
     }
 
+    @PostMapping("/rateCourse")
+    public String rateCourse(@RequestParam("rate") Integer rate, @RequestParam("courseId") Long courseId, Model model){
+        courseService.rateCourse(getCurrentUserId(model), courseId, rate);
+        return "redirect:/student/myCourses/" + courseId;
+    }
+
     private Long getCurrentUserId(Model model){
         return ((User) Objects.requireNonNull(model.getAttribute("user"))).getId();
     }

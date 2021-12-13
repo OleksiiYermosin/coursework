@@ -22,14 +22,16 @@
 							<div class="f" th:text="${courses.courseName}">
 							</div>
 							<div class="search">
-								<form action="" class="find">
+								<form action="/student/rateCourse" method="post" class="find">
 									<div class="lessonsStat">
 										<p th:text="#{course.info.page.attended.lessons.value} + ${courses.attendedLessonsAmount}"></p>
 										<p th:text="#{course.info.page.missed.lessons.value} + ${courses.missedLessonsAmount}"></p>
 										<p th:text="#{course.info.page.total.lessons.value} + ${courses.lessonsAmount}"></p>
 									</div>
-									<div class="buttonAll">
-										<input type="number" min="1" max="5" th:placeholder="#{course.info.page.rate.placeholder}">
+									<div th:if="${courses.rate == null}" class="buttonRate">
+										<input type="number" min="1" max="5" th:placeholder="#{course.info.page.rate.placeholder}" name="rate" required>
+										<input type="hidden" th:value="${courses.courseId}" name="courseId">
+										<input type="submit" th:value="#{course.info.page.rate.action}">
 									</div>
 								</form>
 								<div class="showSearchRes">

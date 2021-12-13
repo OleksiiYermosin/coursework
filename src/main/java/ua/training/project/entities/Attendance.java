@@ -32,4 +32,7 @@ public class Attendance {
     private Integer attendedLessonsAmount;
 
     private Boolean isPassed = false;
+
+    private Integer rate;
+
 }

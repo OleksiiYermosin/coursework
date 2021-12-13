@@ -9,7 +9,7 @@
                 <div class="title"><a href="/">Driving School</a></div>
                 <div class="users">
                     <div sec:authorize="hasRole('STUDENT')" class="exit"><a href="/student/" th:text="#{header.menu.courses}"></a></div>
-                    <div sec:authorize="isAuthenticated()" class="adminName" th:text="${user.getName()}"></div>
+                    <div sec:authorize="isAuthenticated()" class="adminName"><a th:text="${user.getName()}" href="/student/myCourses"></a></div>
                     <div sec:authorize="isAuthenticated()" class="exit"><a href="/logout" th:text="#{header.logout.value}"></a></div>
                     <div sec:authorize="!isAuthenticated()" class="exit"><a href="/login" th:text="#{login.page.action}"></a></div>
                     <form class="local" method="get" th:action="${#httpServletRequest.requestURI}">
