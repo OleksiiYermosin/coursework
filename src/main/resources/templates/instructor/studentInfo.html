@@ -1,32 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Driving school</title>
-
+	<title th:text="#{instructor.student.evaluation.page.title}"></title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="css/main.css">
+	<link th:replace="/common/fragment :: css">
 </head>
 <body class="body">
-	<header class="header">
-		<div class="nav">
-			<div class="container">
-				<div class="text">
-					<div class="title">Driving School</div>
-					<div class="users">
-						<div class="exit"><a href="index.html">Курси</a></div>
-						<div class="adminName">Admin</div>
-						<div class="exit"><a href="login.html">Вийти</a></div>
-						<form class="local"><input type="submit" value="EN"></form>
-					</div>
-				</div>
-			</div>
-		</div>
+	<header th:replace="/common/fragment :: header" class="header">
 	</header>
 	<section class="content">
 		<div class="container">
@@ -34,76 +19,62 @@
 				<div class="contentRow">
 					<div class="contentPart">
 						<div class="inside">
-							<div class="f">
-								Жисси Тоад
+							<div class="f" th:text="${userCourseDTO.user.name + ' ' + userCourseDTO.user.surname}">
 							</div>
 							<div class="userStat">
-								<div class="userImg"><img src="img/photo1.jpg" alt=""></div>
+								<div class="userImg"><img th:src="@{/img/photo1.jpg}"/> alt=""></div>
 								<div class="userInfo">
-									<p>Дані про студента:</p>
-									<p>Ім'я: Жисси</p>
-									<p>Прізвище: Тоад</p>
-									<p>Вік: 19 р.</p>
+									<p th:text="#{instructor.student.evaluation.page.info}"></p>
+									<p th:text="#{instructor.student.evaluation.page.user.name} + ${userCourseDTO.user.name}"></p>
+									<p th:text="#{instructor.student.evaluation.page.user.surname} + ${userCourseDTO.user.surname}"></p>
+									<p th:text="#{instructor.student.evaluation.page.user.age} + ${userCourseDTO.user.age} + #{instructor.student.evaluation.page.user.age.suffix}"></p>
 								</div>
 							</div>
 							<div class="search">
-								<form action="" class="mark">
+								<form th:action="@{/instructor/user/{id}/evaluate(id=${userCourseDTO.getUser().id})}" th:object="${userEvaluationDTO}"
+									  method="post" class="mark">
 									<div class="selects">
-										<select class="events">
-											<option value="ev1">Курс 1</option>
-											<option value="ev2">Курс 2</option>
+										<select name="courseId" class="events">
+											<option th:each="course: ${userCourseDTO.user.attendances}"
+													th:selected="${userEvaluationDTO.courseId != null && userEvaluationDTO.courseId.equals(course.course.id)}"
+													th:value="${course.course.id}" th:text="${course.course.name}"></option>
 										</select>
-										<select class="events">
-											<option value="ev1">Івент 1</option>
-											<option value="ev2">Івент 2</option>
+										<select name="eventId" class="events">
+											<option value="-1" th:text="#{instructor.student.evaluation.page.missed.event}"></option>
+											<option th:each="event: ${userCourseDTO.events}"
+													th:selected="${userEvaluationDTO.eventId != null && userEvaluationDTO.eventId.equals(event.id)}"
+													th:value="${event.id}" th:text="${event.name}"></option>
 										</select>
 										<div class="mist">
-											<select class="events third">
-												<option value="ev1">Помилка 1</option>
-												<option value="ev2">Помилка 2</option>
+											<select name="mistakeId" class="events third">
+												<option th:each="mistake: ${userCourseDTO.mistakes}" th:value="${mistake.id}" th:text="${mistake.name}"></option>
 											</select>
-											<input type="submit" value="+">
+											<input type="submit" name="action" value="+">
 										</div>
-
-										<input type="number" min="1" max="5" placeholder="Бал">
 									</div>
 									<div class="buttonAll">
-										<input type="submit" value="Поставити оцінку">
+										<input type="submit" name="action" th:value="#{instructor.student.evaluation.page.submit.action}">
 									</div>
 								</form>
 								<div class="showSearchRes">
-									<div class="res">
+									<form th:action="@{/instructor/user/{id}/removeMistake(id=${userCourseDTO.getUser().id})}" method="post"
+										  th:if="${!mistakeList.isEmpty()}" th:each="mistake: ${mistakeList}" class="res">
 										<div class="student">
-											<p class="pesP">Помилка 1</p>
+											<p class="pesP" th:text="${mistake.name}"></p>
+											<input type="hidden" th:value="${mistake.id}" name="mistakeId">
+											<input type="submit">
 										</div>
-									</div>
-									<div class="res">
-										<div class="student">
-											<p class="pesP">Помилка 2</p>
-										</div>
-									</div>
-									<div class="res">
-										<div class="student">
-											<p class="pesP">Помилка 3</p>
-										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</section>
-	<footer class="footer">
-		<div class="container">
-			<div class="footContent">
-				<div class="fText">Курсова робота - 2021</div>
-				<div class="fText"><b>Компоненти програмної інженерії - 3</b></div>
-			</div>
-		</div>
-	</footer>
+	<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+	<script th:replace="/common/fragment :: js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

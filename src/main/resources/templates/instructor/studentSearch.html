@@ -1,85 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Driving school</title>
-
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{instructor.user.search.page.title}"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css">
 </head>
 <body class="body">
-	<header class="header">
-		<div class="nav">
-			<div class="container">
-				<div class="text">
-					<div class="title">Driving School</div>
-					<div class="users">
-						<div class="exit"><a href="index.html">Курси</a></div>
-						<div class="adminName">Admin</div>
-						<div class="exit"><a href="login.html">Вийти</a></div>
-						<form class="local"><input type="submit" value="EN"></form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-	<section class="content">
-		<div class="container">
-			<div class="row">
-				<div class="contentRow">
-					<div class="contentPart">
-						<div class="inside">
-							<div class="f">
-								Пошук студентів
-							</div>
-							<div class="search">
-								<form action="" class="find">
-									<div class="byName">
-										<input type="text" placeholder="Пошук студента" class="enterName">
-										<input type="submit" value="Пошук">
-									</div>
-								</form>
-								<div class="showSearchRes">
-									<div class="res">
-										<div class="student">
-											<p class="pesP">Студент 1</p>
-											<input type="submit" value="Перейти">
-										</div>
-									</div>
-									<div class="res">
-										<div class="student">
-											<p class="pesP">Студент 1</p>
-											<input type="submit" value="Перейти">
-										</div>
-									</div>
-									<div class="res">
-										<div class="student">
-											<p class="pesP">Студент 1</p>
-											<input type="submit" value="Перейти">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</section>
-	<footer class="footer">
-		<div class="container">
-			<div class="footContent">
-				<div class="fText">Курсова робота - 2021</div>
-				<div class="fText"><b>Компоненти програмної інженерії - 3</b></div>
-			</div>
-		</div>
-	</footer>
-	<script src="js/main.js"></script>
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="contentRow">
+                <div class="contentPart">
+                    <div class="inside">
+                        <div class="f" th:text="#{instructor.user.search.page.title}">
+                        </div>
+                        <div class="search">
+                            <form action="/instructor" method="get" class="find">
+                                <div class="byName">
+                                    <input type="text" th:placeholder="#{instructor.user.search.page.form.placeholder}"
+                                           class="enterName" name="searchField">
+                                    <input type="submit" th:value="#{instructor.user.search.page.form.value}">
+                                </div>
+                            </form>
+                            <div class="showSearchRes">
+                                <form class="res" method="get" th:each="student: ${students}"
+                                      th:action="@{/instructor/user/{id}(id=${student.id})}">
+                                    <div class="student">
+                                        <p class="pesP" th:text="${student.name + ' ' + student.surname}"></p>
+                                        <input type="submit" th:value="#{instructor.user.page.redirect}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
 </body>
 </html>

@@ -3,12 +3,15 @@ package ua.training.project.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import ua.training.project.entities.User;
 import ua.training.project.exceptions.IncorrectCourseException;
 import ua.training.project.services.UserService;
+
+import java.util.Objects;
 
 @ControllerAdvice
 public class AuxiliaryController {
@@ -30,6 +33,10 @@ public class AuxiliaryController {
     public String getErrorPage(IncorrectCourseException exception){
         System.out.println(exception.getMessage());
         return "common/index";
+    }
+
+    public static Long getCurrentUserId(Model model){
+        return ((User) Objects.requireNonNull(model.getAttribute("user"))).getId();
     }
 
 }

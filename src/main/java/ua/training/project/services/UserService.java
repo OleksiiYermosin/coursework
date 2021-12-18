@@ -1,16 +1,16 @@
 package ua.training.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.training.project.entities.User;
 import ua.training.project.repositories.RoleRepository;
 import ua.training.project.repositories.UserRepository;
 import ua.training.project.utils.PasswordEncoder;
+
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -33,11 +33,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
     }
 
-    public boolean registerUser(User user){
+    public void registerUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleRepository.findByName("ROLE_STUDENT"));
         userRepository.save(user);
-        return true;
+    }
+
+    public List<User> findUsersByNameOrSurname(String searchValue){
+        return userRepository.findByNameOrSurname(searchValue);
     }
 
 

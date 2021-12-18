@@ -1,14 +1,20 @@
 package ua.training.project.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.training.project.entities.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
+
+    @Query("SELECT u FROM User u WHERE CONCAT(u.name, ' ', u.surname) LIKE %?1% AND u.isStudent=true " +
+            "OR CONCAT(u.surname, ' ', u.name) LIKE %?1% AND u.isStudent=true")
+    List<User> findByNameOrSurname(String searchString);
 
 }
