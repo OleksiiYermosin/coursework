@@ -6,4 +6,6 @@ public interface ConstantHolder {
 
     int MAX_MARK = 100;
 
+    int MAX_RECORDS_PER_PAGE = 2;
+
 }

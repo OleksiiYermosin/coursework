@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import ua.training.project.dto.SearchDTO;
 import ua.training.project.dto.UserEvaluationDTO;
 import ua.training.project.services.InstructorService;
 import ua.training.project.services.MistakeService;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 
 @Controller
 @RequestMapping("/instructor")
-@SessionAttributes("userEvaluationDTO")
+@SessionAttributes({"userEvaluationDTO", "searchDTO"})
 public class InstructorController {
 
     private final UserService userService;
@@ -63,6 +64,17 @@ public class InstructorController {
                                @ModelAttribute("userEvaluationDTO") UserEvaluationDTO userEvaluationDTO) {
         userEvaluationDTO.getMistakesList().remove(mistakeId);
         return "redirect:/instructor/user/" + userId;
+    }
+
+    @GetMapping("/studentRating")
+    public String getStudentRatingPage(@ModelAttribute("searchDTO") SearchDTO searchDTO, Model model){
+        model.addAttribute("studentRatingList", instructorService.prepareStudentRatingDTO(searchDTO));
+        return "instructor/studentRating";
+    }
+
+    @ModelAttribute("searchDTO")
+    public SearchDTO createSearchDTO(){
+        return new SearchDTO();
     }
 
     @ModelAttribute("userEvaluationDTO")
