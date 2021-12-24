@@ -1,4 +1,4 @@
-package ua.training.project.dto;
+package ua.training.project.dto.output;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,16 +6,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import ua.training.project.entities.Course;
 
-import java.util.List;
 import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseDTO {
+public class UserCoursesDTO {
 
-    private Page<Course> courses;
+    private Page<Course> course;
 
-    private Map<Long, Boolean> userCourseMap;
+    private Map<Long, Long> passedEventsMap;
+
+    private Map<Long, Long> failedEventsMap;
 
 }

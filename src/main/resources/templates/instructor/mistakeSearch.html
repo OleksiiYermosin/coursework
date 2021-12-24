@@ -39,7 +39,7 @@
                                     <option th:selected="${mistakeSearchDTO.sortDirection.equals('DESC')}" value="DESC"
                                             th:text="#{courses.sort.desc}"></option>
                                 </select>
-                                <form action="/instructor/mistake/edit" method="get">
+                                <form action="/instructor/mistake/edit" method="get" class="nm">
                                     <input type="submit" th:value="#{instructor.mistakes.new.mistake}">
                                 </form>
                             </div>

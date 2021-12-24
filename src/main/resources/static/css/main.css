@@ -322,8 +322,11 @@ select{
 	width: 30%;
 	margin: 0 30px 20px 0;
 }
-.selectSort input[type="submit"]{
+.selectSort .nm{
 	width: 33%;
+}
+.nm input[type="submit"]{
+	width: 100%;
 }
 .selectSort.sel2 select{
 	margin: 0 15px 20px 0;

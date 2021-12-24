@@ -26,21 +26,17 @@
         </layout>
     </appender>
 
-    <logger name="ua.training.project" level="info" additivity="false">
-        <appender-ref ref="FILE-ROLLING"/>
-    </logger>
+    <root level="info">
+        <appender-ref ref="FILE-ROLLING" />
+    </root>
 
-    <logger name="ua.training.project" level="warn" additivity="false">
-        <appender-ref ref="FILE-ROLLING"/>
-    </logger>
-
-
-
-    <root level="error">
-        <appender-ref ref="FILE-ROLLING"/>
+    <root level="warn">
+        <appender-ref ref="FILE-ROLLING" />
+        <appender-ref ref="CONSOLE" />
     </root>
 
     <root level="error">
+        <appender-ref ref="FILE-ROLLING"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 

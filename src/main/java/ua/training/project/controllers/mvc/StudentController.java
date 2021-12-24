@@ -8,13 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.training.project.controllers.AuxiliaryController;
-import ua.training.project.dto.CourseSearchDTO;
+import ua.training.project.dto.input.CourseSearchDTO;
 import ua.training.project.dto.input.StudentCoursesDTO;
 import ua.training.project.exceptions.NotEnoughMoneyException;
 import ua.training.project.services.CourseService;
 import ua.training.project.services.UserService;
 
-import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
 
 

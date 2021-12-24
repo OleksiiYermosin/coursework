@@ -1,4 +1,4 @@
-package ua.training.project.dto;
+package ua.training.project.dto.output;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -6,15 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.project.dto.SearchDTO;
-import ua.training.project.dto.StudentRatingDTO;
-import ua.training.project.dto.UserCourseDTO;
-import ua.training.project.dto.UserEvaluationDTO;
+import ua.training.project.dto.input.SearchDTO;
+import ua.training.project.dto.output.StudentRatingDTO;
+import ua.training.project.dto.output.UserCourseDTO;
+import ua.training.project.dto.input.UserEvaluationDTO;
 import ua.training.project.dto.input.StudentCourseInfoSearchDTO;
 import ua.training.project.entities.*;
 import ua.training.project.exceptions.IncorrectUserException;
 import ua.training.project.repositories.*;
-import ua.training.project.utils.ConstantHolder;
 
 import static ua.training.project.utils.ConstantHolder.*;
 

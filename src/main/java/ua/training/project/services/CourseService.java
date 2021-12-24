@@ -5,12 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.annotation.Transactional;
-import ua.training.project.dto.CourseDTO;
-import ua.training.project.dto.CourseInfoDTO;
-import ua.training.project.dto.CourseSearchDTO;
-import ua.training.project.dto.UserCoursesDTO;
+import ua.training.project.dto.output.CourseDTO;
+import ua.training.project.dto.output.CourseInfoDTO;
+import ua.training.project.dto.input.CourseSearchDTO;
+import ua.training.project.dto.output.UserCoursesDTO;
 import ua.training.project.dto.input.StudentCoursesDTO;
 import ua.training.project.entities.*;
 import ua.training.project.exceptions.IncorrectCourseException;
@@ -18,7 +17,6 @@ import ua.training.project.exceptions.NotEnoughMoneyException;
 import ua.training.project.repositories.*;
 import ua.training.project.utils.AttendanceKey;
 
-import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
 import java.util.*;
 
