@@ -1,13 +1,13 @@
 package ua.training.project.entities;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -20,6 +20,7 @@ import static ua.training.project.utils.PatternsHolder.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@DynamicUpdate
 public class User implements UserDetails {
 
     @Id
@@ -35,12 +36,18 @@ public class User implements UserDetails {
     @Pattern(regexp = USERNAME_PATTERN)
     private String username;
 
-    @DecimalMin(value = MINIMAL_AGE)
+    @Min(18)
+    @Max(100)
     private Integer age;
 
     private Boolean isStudent = true;
 
+    @DecimalMin(value = "0.00")
+    @Digits(integer = 999,fraction = 2)
+    private BigDecimal balance;
+
     @NotNull
+    @NotEmpty
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

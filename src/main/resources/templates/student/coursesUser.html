@@ -17,20 +17,53 @@
     <div class="container">
         <div class="row">
             <div class="contentUC">
+                <div class="userDetails">
+                    <div class="aboutUser">
+                        <span th:text="#{student.user.name} + ': ' + ${user.name}"></span>
+                        <span th:text="#{student.user.surname} + ': ' + ${user.surname}"></span>
+                        <span th:text="#{student.user.age} + ': ' + ${user.age}"></span>
+                    </div>
+                    <form class="aboutBalance" method="get" action="/student/rechargeBalance">
+                        <span th:text="#{student.user.balance} + ': ' + ${user.balance}"></span>
+                        <input type="submit" value="+">
+                    </form>
+                </div>
                 <div class="f" th:text="#{my.courses.page.action}"></div>
+                <form method="GET" action="/student/myCourses" id="my_form" class="find">
+                    <div class="byName">
+                        <input type="text" th:placeholder="#{courses.name.placeholder}"
+                               th:value="${courseSearchDTO.courseName}" class="enterName" name="courseName">
+                        <input type="submit" th:value="#{courses.search.value}">
+                    </div>
+                </form>
                 <div class="user-courses" >
-                    <div class="user-course" th:each="course:${courses}">
+                    <div class="user-course" th:each="course:${courses.getCourse()}">
                         <div class="uc-name">
-                            <p th:text="${course.getCourse().getName()}"></p>
+                            <p th:text="${course.getName()}"></p>
                         </div>
                         <div class="uc-progress">
-                            <p th:text="#{my.courses.page.passed.value} + ${course.getPassedAmount()}"></p>
-                            <p th:text="#{my.courses.page.failed.value} + ${course.getFailedAmount()}"></p>
+                            <p th:text="#{my.courses.page.passed.value} + ${courses.getPassedEventsMap().get(course.getId())}"></p>
+                            <p th:text="#{my.courses.page.failed.value} + ${courses.getFailedEventsMap().get(course.getId())}"></p>
                         </div>
                         <div class="uc-details">
-                            <a th:href="@{/student/myCourses/{id}(id=${course.getCourse().getId()})}">Details</a>
+                            <a th:href="@{/student/myCourses/{id}(id=${course.getId()})}" th:text="#{my.courses.page.details.value}"></a>
                         </div>
                     </div>
+                </div>
+                <div class="buttonsPages">
+                    <button th:if="${courses.course.totalPages!=1 && !courses.course.isFirst()}" type="submit" form="my_form"
+                            name="pageNumber" value="0" th:text="#{elements.arrow.first}">
+                    </button>
+                    <button th:if="${courses.course.hasPrevious()}" type="submit" form="my_form" name="pageNumber"
+                            th:value="${courses.course.previousPageable().pageNumber}" th:text="#{elements.arrow.previous}">
+                    </button>
+                    <button th:if="${courses.course.hasNext()}" type="submit" form="my_form" name="pageNumber"
+                            th:value="${courses.course.nextPageable().pageNumber}" th:text="#{elements.arrow.next}">
+                    </button>
+                    <button th:if="${courses.course.totalPages!=1 && !courses.course.isLast()}" type="submit"
+                            form="my_form" name="pageNumber" th:value="${courses.course.totalPages - 1}"
+                            th:text="#{elements.arrow.last}">
+                    </button>
                 </div>
             </div>
         </div>

@@ -19,16 +19,41 @@
 				<div class="contentRow">
 					<div class="f" th:text="#{registration.page.action}"></div>
 					<form action="/register" method="post" class="login" th:object="${newUser}">
-						<input type="text" name="username" pattern="^[A-Za-z][A-Za-z0-9_-]{3,25}$"
-							   th:placeholder="#{login.placeholder}" required>
-						<input type="text" name="surname" pattern="[A-Z][a-z]{1,24}|[А-ЯЁІЇ][а-яёії']{1,24}"
-							   th:placeholder="#{surname.placeholder}" required>
-						<input type="text" name="name" pattern="[A-Z][a-z]{1,24}|[А-ЯЁІЇ][а-яёії']{1,19}"
-							   th:placeholder="#{name.placeholder}" required>
-						<input type="number" name="age" min="18"
-							   th:placeholder="#{age.placeholder}" required>
-						<input type="password" name="password" pattern="^[A-Z][A-Za-z0-9_-]{5,25}$"
-							   th:placeholder="#{password.placeholder}" required>
+						<div class="inputs">
+							<input type="text" th:field="*{username}"
+								   th:placeholder="#{login.placeholder}" required>
+							<div class="errLog" th:if="${#fields.hasErrors('username')}">
+								<p th:if="${#fields.hasErrors('username')}" th:text="#{validation.user.username.field.error}"></p>
+							</div>
+						</div>
+						<div class="inputs">
+							<input type="text" name="surname"
+								   th:placeholder="#{surname.placeholder}" required>
+							<div class="errLog" th:if="${#fields.hasErrors('surname')}">
+								<p th:if="${#fields.hasErrors('surname')}" th:text="#{validation.user.surname.field.error}"></p>
+							</div>
+						</div>
+						<div class="inputs">
+							<input type="text" name="name"
+								   th:placeholder="#{name.placeholder}" required>
+							<div class="errLog" th:if="${#fields.hasErrors('name')}">
+								<p th:if="${#fields.hasErrors('name')}" th:text="#{validation.user.name.field.error}"></p>
+							</div>
+						</div>
+						<div class="inputs">
+							<input type="number" name="age"
+								   th:placeholder="#{age.placeholder}" required>
+							<div class="errLog" th:if="${#fields.hasErrors('age')}">
+								<p th:if="${#fields.hasErrors('age')}" th:text="#{validation.user.age.field.error}"></p>
+							</div>
+						</div>
+						<div class="inputs">
+							<input type="password" name="password"
+								   th:placeholder="#{password.placeholder}" required>
+							<div class="errLog" th:if="${#fields.hasErrors('password')}">
+								<p th:if="${#fields.hasErrors('password')}" th:text="#{validation.user.password.field.error}"></p>
+							</div>
+						</div>
 						<input type="submit" class="buttonAll" th:value="#{registration.page.title}">
 					</form>
 					<p class="register" th:text="#{login.prompt.text}"></p>

@@ -1,6 +1,8 @@
 package ua.training.project.repositories;
 
 import com.querydsl.core.types.Predicate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
 
     @Query("SELECT u FROM User u WHERE CONCAT(u.name, ' ', u.surname) LIKE %?1% AND u.isStudent=true " +
             "OR CONCAT(u.surname, ' ', u.name) LIKE %?1% AND u.isStudent=true")
-    List<User> findByNameOrSurname(String searchString);
+    Page<User> findByNameOrSurname(String searchString, Pageable pageable);
 
 }

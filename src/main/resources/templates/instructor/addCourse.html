@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{instructor.add.course.title}"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="contentRow">
+                <div class="contentPart">
+                    <div class="inside">
+                        <div class="f" th:text="#{instructor.add.course.action}">
+                        </div>
+                        <div class="search">
+                            <form action="/instructor/addCourse" th:object="${course}" method="post" class="newCourse">
+                                <div class="inputs add60">
+                                    <input type="text" name="name" th:placeholder="#{instructor.add.course.form.name.placeholder}"
+                                           th:value="${course != null && course.name != null ? course.name : ''}" required>
+                                    <div class="errLog" th:if="${#fields.hasErrors('name')}">
+                                        <p th:if="${#fields.hasErrors('name')}" th:text="#{validation.course.name.field.error}"></p>
+                                    </div>
+                                </div>
+                                <div class="inputs add10">
+                                    <input type="text" name="price" th:placeholder="#{instructor.add.course.form.price.placeholder}"
+                                           th:value="${course != null && course.price != null ? course.price : ''}" required>
+                                    <div class="errLog" th:if="${#fields.hasErrors('price')}">
+                                        <p th:if="${#fields.hasErrors('price')}" th:text="#{validation.course.price.field.error}"></p>
+                                    </div>
+                                </div>
+                                <div class="inputs add10">
+                                    <input type="number" name="lessonsAmount" th:placeholder="#{instructor.add.course.form.lessons.placeholder}"
+                                           th:value="${course != null && course.lessonsAmount != null ? course.lessonsAmount : ''}" required>
+                                    <div class="errLog" th:if="${#fields.hasErrors('lessonsAmount')}">
+                                        <p th:if="${#fields.hasErrors('lessonsAmount')}" th:text="#{validation.course.lessons.field.error}"></p>
+                                    </div>
+                                </div>
+
+                                <select name="categoryId" required>
+                                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                                <input type="submit" th:value="#{instructor.add.course.form.submit.value}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
+</body>
+</html>

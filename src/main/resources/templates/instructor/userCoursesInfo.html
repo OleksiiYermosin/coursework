@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="#{course.info.page.title}"></title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+	<link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+	<header th:replace="/common/fragment :: header" class="header">
+	</header>
+	<section class="content">
+		<div class="container">
+			<div class="row">
+				<div class="contentRow">
+					<div class="contentPart">
+						<div class="inside">
+							<div class="f">
+							</div>
+							<div class="search">
+								<form th:action="@{/instructor/user/{id}/courses(id=${userId})}" method="get" class="find" id="my_form">
+									<div class="byName courseDet">
+										<input type="text" th:placeholder="#{instructor.specific.user.courses.page.course.name.placeholder}"
+											   th:value="${studentCourseInfoSearchDTO.courseName}" class="enterName" name="courseName">
+										<input type="text" th:placeholder="#{instructor.specific.user.courses.page.event.name.placeholder}"
+											   th:value="${studentCourseInfoSearchDTO.eventName}" class="enterName" name="eventName">
+										<input type="text" th:placeholder="#{instructor.specific.user.courses.page.category.name.placeholder}"
+											   th:value="${studentCourseInfoSearchDTO.categoryName}" class="enterName" name="categoryName">
+										<input type="submit" th:value="#{courses.search.value}">
+									</div>
+								</form>
+								<div class="selectSort sel2">
+									<select name="sort" form="my_form">
+										<option th:selected="${studentCourseInfoSearchDTO.sort.equals('course.name')}" value="course.name"
+										th:text="#{instructor.specific.user.courses.page.select.course.name.value}"></option>
+										<option th:selected="${studentCourseInfoSearchDTO.sort.equals('event.name')}" value="event.name"
+										th:text="#{instructor.specific.user.courses.page.select.event.name.value}"></option>
+										<option th:selected="${studentCourseInfoSearchDTO.sort.equals('mark')}" value="mark"
+										th:text="#{instructor.specific.user.courses.page.select.mark.point.value}"></option>
+										<option th:selected="${studentCourseInfoSearchDTO.sort.equals('course.category.name')}" value="course.category.name"
+										th:text="#{instructor.specific.user.courses.page.select.category.name.value}"></option>
+									</select>
+									<select name="sortDirection" form="my_form">
+										<option th:selected="${studentCourseInfoSearchDTO.sortDirection.equals('ASC')}" value="ASC"
+												th:text="#{courses.sort.asc}"></option>
+										<option th:selected="${studentCourseInfoSearchDTO.sortDirection.equals('DESC')}" value="DESC"
+												th:text="#{courses.sort.desc}"></option>
+									</select>
+								</div>
+								<div class="showSearchRes">
+									<div class="res" th:each="training:${trainings}">
+										<div class="accordion">
+											<p class="pesP" th:text="${training.course.name + ' (' + training.event.name + ')'}"></p>
+											<p class="pesP categ" th:text="${training.course.category.name}"></p>
+											<span class="pesS" th:text="${training.date}"></span>
+										</div>
+										<div class="panel">
+											<p th:text="#{instructor.specific.user.courses.page.mark.value} + ': ' + ${training.mark}"></p>
+											<p th:text="#{course.info.page.mistake.value}"></p>
+											<div class="minuses" th:each="mistake:${training.mistakes}">
+												<p class="note" th:text="${'• ' + mistake.name + ': ' + mistake.description}"></p>
+												<p class="penalty" th:text="#{course.info.page.penalty.value} + ${mistake.penaltyPoint}"></p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="buttonsPages">
+									<button th:if="${trainings.totalPages!=1 && !trainings.isFirst()}" type="submit" form="my_form"
+											name="pageNumber" value="0" th:text="#{elements.arrow.first}">
+									</button>
+									<button th:if="${trainings.hasPrevious()}" type="submit" form="my_form" name="pageNumber"
+											th:value="${trainings.previousPageable().pageNumber}" th:text="#{elements.arrow.previous}">
+									</button>
+									<button th:if="${trainings.hasNext()}" type="submit" form="my_form" name="pageNumber"
+											th:value="${trainings.nextPageable().pageNumber}" th:text="#{elements.arrow.next}">
+									</button>
+									<button th:if="${trainings.totalPages!=1 && !trainings.isLast()}" type="submit"
+											form="my_form" name="pageNumber" th:value="${trainings.totalPages - 1}"
+											th:text="#{elements.arrow.last}">
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+	<script th:replace="/common/fragment :: js"></script>
+</body>
+</html>

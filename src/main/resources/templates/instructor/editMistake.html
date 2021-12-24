@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{instructor.edit.mistake.title}"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="contentRow">
+                <div class="contentPart">
+                    <div class="inside">
+                        <div class="f" th:text="#{instructor.edit.mistake.action}">
+                        </div>
+                        <div class="search">
+                            <form action="/instructor/mistake/edit" method="post" th:object="${mistake}" class="newMistake">
+                                <input th:if="${mistake != null}" type="hidden" name="id" th:value="${mistake.id}">
+                                <div class="inputsTop">
+                                    <div class="inputs">
+                                        <input type="text" th:placeholder="#{instructor.mistakes.sort.select.name}" name="name"
+                                               th:value="${mistake != null ? mistake.name : ''}" required>
+                                        <div class="errLog long" th:if="${#fields.hasErrors('name')}">
+                                            <p th:if="${#fields.hasErrors('name')}" th:text="#{validation.mistake.name.error}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="inputs">
+                                    <textarea rows="3" name="description" th:placeholder="#{instructor.mistakes.sort.select.description}"
+                                              th:text="${mistake != null ? mistake.description : ''}" required></textarea>
+                                        <div class="errLog long" th:if="${#fields.hasErrors('description')}">
+                                            <p th:if="${#fields.hasErrors('description')}" th:text="#{validation.mistake.description.error}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inputs">
+                                    <input type="number" name="penaltyPoint" th:placeholder="#{instructor.mistakes.sort.select.points}"
+                                           th:value="${mistake != null ? mistake.penaltyPoint : ''}" required>
+                                    <div class="errLog" th:if="${#fields.hasErrors('penaltyPoint')}">
+                                        <p th:if="${#fields.hasErrors('penaltyPoint')}" th:text="#{validation.mistake.point.field.error}"></p>
+                                    </div>
+                                </div>
+                                <input type="submit" th:value="#{instructor.edit.mistake.save}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
+</body>
+</html>

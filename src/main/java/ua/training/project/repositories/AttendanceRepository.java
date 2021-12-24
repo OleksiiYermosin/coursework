@@ -14,6 +14,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Attendan
 
     Attendance findByUserAndCourse(User user, Course course);
 
+    @Query("SELECT c from Attendance a INNER JOIN a.course c " +
+            "INNER JOIN a.user u WHERE u.id = ?1 AND c.name LIKE %?2% ORDER BY c.name ASC")
+    Page<Course> findCoursesByUserIdAndCourseName(Long id, String name, Pageable pageable);
+
     @Query("SELECT new ua.training.project.dto.StudentRatingDTO(u, a, c) FROM Attendance a " +
             "INNER JOIN a.course c ON a.course.id = c.id INNER JOIN a.user u ON a.user.id = u.id " +
             "WHERE c.id = a.course.id AND u.id = a.user.id AND " +

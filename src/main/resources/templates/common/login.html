@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-	<link th:replace="/common/fragment :: css" rel="stylesheet" th:href="@{/css/main.css}">
-	<title th:text="#{login.page.title}"></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css" rel="stylesheet">
+    <title th:text="#{login.page.title}"></title>
 </head>
 <body class="body">
-	<header th:replace="/common/fragment :: header" class="header">
-	</header>
-	<section class="content">
-		<div class="container">
-			<div class="row-autorize">
-				<div class="contentRow">
-					<div class="f" th:text="#{login.page.action}"></div>
-					<form action="/login" method="post" class="login">
-						<input name="username" type="text" pattern="^[A-Za-z][A-Za-z0-9_-]{3,25}$"
-							   th:placeholder="#{login.placeholder}" required>
-						<input name="password" type="password" pattern="^[A-Z][A-Za-z0-9_-]{5,25}$"
-							   th:placeholder="#{password.placeholder}" required>
-						<input type="submit" class="buttonAll" th:value="#{login.page.action}">
-					</form>
-					<p class="register" th:text="#{register.prompt.text}"></p>
-					<a href="/register" th:text="#{register.redirect.button}"></a>
-				</div>
-			</div>
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row-autorize">
+            <div class="contentRow">
+                <div class="f" th:text="#{login.page.action}"></div>
+                <form action="/login" method="post" class="login">
+                    <input name="username" type="text" pattern="^[A-Za-z][A-Za-z0-9_-]{3,25}$"
+                           th:placeholder="#{login.placeholder}" required>
+                    <input name="password" type="password" pattern="^[A-Z][A-Za-z0-9_-]{5,25}$"
+                           th:placeholder="#{password.placeholder}" required>
+                    <input type="submit" class="buttonAll" th:value="#{login.page.action}">
+                </form>
+                <p class="register" th:text="#{register.prompt.text}"></p>
+                <a href="/register" th:text="#{register.redirect.button}"></a>
+            </div>
+        </div>
 
-		</div>
-	</section>
-	<footer th:replace="/common/fragment :: footer" class="footer">
-	</footer>
+    </div>
+</section>
+<footer th:replace="/common/fragment :: footer" class="footer">
+</footer>
 </body>
 </html>

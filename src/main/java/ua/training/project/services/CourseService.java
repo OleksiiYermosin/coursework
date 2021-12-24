@@ -1,26 +1,26 @@
 package ua.training.project.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.project.dto.CourseDTO;
 import ua.training.project.dto.CourseInfoDTO;
+import ua.training.project.dto.CourseSearchDTO;
 import ua.training.project.dto.UserCoursesDTO;
-import ua.training.project.entities.Attendance;
-import ua.training.project.entities.Course;
-import ua.training.project.entities.Training;
+import ua.training.project.dto.input.StudentCoursesDTO;
+import ua.training.project.entities.*;
 import ua.training.project.exceptions.IncorrectCourseException;
-import ua.training.project.repositories.AttendanceRepository;
-import ua.training.project.repositories.CourseRepository;
-import ua.training.project.repositories.TrainingRepository;
-import ua.training.project.repositories.UserRepository;
+import ua.training.project.exceptions.NotEnoughMoneyException;
+import ua.training.project.repositories.*;
 import ua.training.project.utils.AttendanceKey;
 
+import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static ua.training.project.utils.ConstantHolder.*;
 
@@ -35,38 +35,53 @@ public class CourseService {
 
     private final AttendanceRepository attendanceRepository;
 
+    private final CategoryRepository categoryRepository;
+
+    private UserService userService;
+
     @Autowired
     public CourseService(TrainingRepository trainingRepository, UserRepository userRepository,
-                         CourseRepository courseRepository, AttendanceRepository attendanceRepository) {
+                         CourseRepository courseRepository, AttendanceRepository attendanceRepository,
+                         CategoryRepository categoryRepository) {
         this.trainingRepository = trainingRepository;
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
         this.attendanceRepository = attendanceRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Transactional
-    public List<CourseDTO> findCoursesByName(String name, Long userId){
-        List<Course> courses = courseRepository.findByNameContaining(name);
-        List<CourseDTO> resultList = new LinkedList<>();
+    public CourseDTO findCoursesByName(CourseSearchDTO searchCourseDTO, Long userId){
+        Page<Course> courses = courseRepository.findByNameContaining(searchCourseDTO.getCourseName(), PageRequest.of(
+                searchCourseDTO.getPageNumber(),MAX_RECORDS_PER_PAGE, Sort.by(Sort.Direction.valueOf(
+                        searchCourseDTO.getSortDirection()), searchCourseDTO.getSort())));
+        Map<Long, Boolean> userCourseMap = new HashMap<>();
+        System.out.println(courses);
         for (Course course : courses) {
             boolean isCurrentUserEnrolled = userRepository.getById(userId).getAttendances().stream().
-                    anyMatch(c -> c.getCourse().getId().equals(course.getId()));
-            resultList.add(new CourseDTO(course, isCurrentUserEnrolled));
+                    anyMatch(a -> a.getCourse().getId().equals(course.getId()));
+            userCourseMap.put(course.getId(), isCurrentUserEnrolled);
         }
-        return resultList;
+        return new CourseDTO(courses, userCourseMap);
     }
 
     @Transactional
-    public List<UserCoursesDTO> getCoursesAndTrainingsOfUser(Long userId){
-        List<Course> courses = userRepository.getById(userId).getAttendances().
-                stream().map(Attendance::getCourse).collect(Collectors.toList());
-        List<UserCoursesDTO> resultList = new LinkedList<>();
+    public UserCoursesDTO getCoursesAndTrainingsOfUser(Long userId, StudentCoursesDTO studentCoursesDTO){
+        Page<Course> courses = attendanceRepository.findCoursesByUserIdAndCourseName(userId, studentCoursesDTO.getCourseName(),
+                PageRequest.of(studentCoursesDTO.getPageNumber(), MAX_RECORDS_PER_PAGE));
+        Map<Long, Long> passedEventsMap = new HashMap<>();
+        Map<Long, Long> failedEventsMap = new HashMap<>();
         for (Course course : courses){
             List<Training> trainingList = trainingRepository.findByCourseIdAndUserId(course.getId(), userId);
-            resultList.add(new UserCoursesDTO(course, trainingList.stream().filter(t -> t.getMark() >= ACCEPTANCE_MARK).count(),
-                    trainingList.stream().filter(t -> t.getMark() < ACCEPTANCE_MARK).count()));
+            passedEventsMap.put(course.getId(), trainingList.stream().filter(t -> t.getMark() >= ACCEPTANCE_MARK).count());
+            failedEventsMap.put(course.getId(), trainingList.stream().filter(t -> t.getMark() < ACCEPTANCE_MARK).count());
         }
-        return resultList;
+        return new UserCoursesDTO(courses, passedEventsMap, failedEventsMap);
     }
 
     @Transactional
@@ -80,12 +95,28 @@ public class CourseService {
                 courseAttendance.getCourse().getName(), courseId);
     }
 
-    @Transactional
     public void enrollUserInNewCourse(Long userId, Long courseId){
+        Course course = courseRepository.getById(courseId);
+        User user;
+        try{
+            user = userService.updateUserBalance(userId, course.getPrice().negate());
+        }catch (RuntimeException exception){
+            throw new NotEnoughMoneyException();
+        }
         AttendanceKey key = new AttendanceKey(userId, courseId);
-        Attendance attendance = new Attendance(key, userRepository.getById(userId), courseRepository.getById(courseId),
-                0, 0, false, null);
+        Attendance attendance = new Attendance(key, user, course, 0, 0, false, null);
         attendanceRepository.save(attendance);
+    }
+
+    @Transactional
+    public void addNewCourse(Course course, Long categoryId){
+        course.setRating(BigDecimal.valueOf(0.00));
+        course.setCategory(categoryRepository.getById(categoryId));
+        courseRepository.save(course);
+    }
+
+    public List<Category> getCategories(){
+        return categoryRepository.findAll();
     }
 
     public void rateCourse(Long userId, Long courseId, Integer rate){

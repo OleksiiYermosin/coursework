@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(3)
+    @NotNull
     private Integer lessonsAmount;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -28,7 +31,13 @@ public class Course {
 
     private BigDecimal rating;
 
+    @NotEmpty
     private String name;
+
+    @DecimalMin(value = "0.00")
+    @Digits(integer=999,fraction=2)
+    @NotNull
+    private BigDecimal price;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

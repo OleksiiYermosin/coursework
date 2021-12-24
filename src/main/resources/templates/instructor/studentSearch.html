@@ -22,7 +22,7 @@
                         <div class="f" th:text="#{instructor.user.search.page.title}">
                         </div>
                         <div class="search">
-                            <form action="/instructor" method="get" class="find">
+                            <form action="/instructor" method="get" class="find" id="my_form">
                                 <div class="byName">
                                     <input type="text" th:placeholder="#{instructor.user.search.page.form.placeholder}"
                                            class="enterName" name="searchField">
@@ -37,6 +37,21 @@
                                         <input type="submit" th:value="#{instructor.user.page.redirect}">
                                     </div>
                                 </form>
+                            </div>
+                            <div class="buttonsPages">
+                                <button th:if="${students.totalPages!=1 && !students.isFirst()}" type="submit" form="my_form"
+                                        name="pageNumber" value="0" th:text="#{elements.arrow.first}">
+                                </button>
+                                <button th:if="${students.hasPrevious()}" type="submit" form="my_form" name="pageNumber"
+                                        th:value="${students.previousPageable().pageNumber}" th:text="#{elements.arrow.previous}">
+                                </button>
+                                <button th:if="${students.hasNext()}" type="submit" form="my_form" name="pageNumber"
+                                        th:value="${students.nextPageable().pageNumber}" th:text="#{elements.arrow.next}">
+                                </button>
+                                <button th:if="${students.totalPages!=1 && !students.isLast()}" type="submit"
+                                        form="my_form" name="pageNumber" th:value="${students.totalPages - 1}"
+                                        th:text="#{elements.arrow.last}">
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -1,45 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Driving school</title>
-
+	<title th:text="#{exception.page.title}"></title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="css/main.css">
+	<link th:replace="/common/fragment :: css">
 </head>
 <body class="body">
-	<header class="header">
-		<div class="nav">
-			<div class="container">
-				<div class="text">
-					<div class="title">Driving School</div>
-					<div class="users">
-						<div class="exit"><a href="index.html">Курси</a></div>
-						<div class="adminName">Admin</div>
-						<div class="exit"><a href="login.html">Вийти</a></div>
-						<form class="local"><input type="submit" value="EN"></form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
+<header th:replace="/common/fragment :: header" class="header">
+</header>
 	<section class="content">
 		<div class="container">
 			<div class="row">
 				<div class="contentRow">
 					<div class="contentPart">
 						<div class="inside">
-							<div class="f">
-								Error Page
+							<div class="f" th:text="#{exception.page.title}">
 							</div>
 							<div class="errorContent">
-								<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat saepe provident nemo delectus porro ipsum labore, nobis aperiam nisi laudantium earum minima non veniam unde veritatis, nihil blanditiis praesentium dolorem.</p>
-								<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat saepe provident nemo delectus porro ipsum labore, nobis aperiam nisi laudantium earum minima non veniam unde veritatis, nihil blanditiis praesentium dolorem.</p>
+								<p th:text="#{${errorMessage}}"></p>
+								<a sec:authorize="hasRole('STUDENT')" href="/student" th:text="#{exception.page.action}"></a>
+								<a sec:authorize="hasRole('INSTRUCTOR')" href="/instructor" th:text="#{exception.page.action}"></a>
 							</div>
 						</div>
 					</div>
@@ -48,14 +33,7 @@
 
 		</div>
 	</section>
-	<footer class="footer">
-		<div class="container">
-			<div class="footContent">
-				<div class="fText">Курсова робота - 2021</div>
-				<div class="fText"><b>Компоненти програмної інженерії - 3</b></div>
-			</div>
-		</div>
-	</footer>
-	<script src="js/main.js"></script>
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
 </body>
 </html>

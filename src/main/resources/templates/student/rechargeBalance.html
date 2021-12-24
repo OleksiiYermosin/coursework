@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{student.recharge.balance.page.title}"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="contentRow">
+                <div class="contentPart">
+                    <div class="inside">
+                        <div class="f" th:text="#{student.recharge.balance.page.action}">
+                        </div>
+                        <div class="search">
+                            <form action="/student/rechargeBalance" method="post" class = "balance">
+                                <div class="inputs">
+                                    <input type="text" th:placeholder="#{student.recharge.balance.page.form.placeholder}" name="sum">
+                                    <div class="errLog" th:if="${error}">
+                                        <p th:if="${error}" th:text="#{student.recharge.balance.page.validation.error}"></p>
+                                    </div>
+                                    <div class="errLog" th:if="${exception !=null && exception ==true}">
+                                        <p th:if="${exception!=null && exception != false}" th:text="#{student.recharge.balance.page.exception}"></p>
+                                    </div>
+                                </div>
+                                <input type="submit" th:value="#{student.recharge.balance.page.form.submit}">
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!---<form action="/student/rechargeBalance" method="post">
+    <input type="text" th:placeholder="#{student.recharge.balance.page.form.placeholder}" name="sum">
+    <input type="submit" th:value="#{student.recharge.balance.page.form.submit}">
+    <p th:if="${error}" th:text="#{student.recharge.balance.page.validation.error}"></p>
+    <p th:if="${exception!=null && exception != false}" th:text="#{student.recharge.balance.page.exception}"></p>
+</form>-->
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
+</body>
+</html>

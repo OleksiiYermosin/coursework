@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{instructor.mistakes.title}"></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    <link th:replace="/common/fragment :: css">
+</head>
+<body class="body">
+<header th:replace="/common/fragment :: header" class="header">
+</header>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="contentRow">
+                <div class="contentPart">
+                    <div class="inside">
+                        <div class="f" th:text="#{instructor.mistakes.action}"></div>
+                        <div class="search">
+                            <form action="/instructor/mistakes" method="get" class="find" id="my_form">
+                                <div class="byName">
+                                    <input type="text" th:placeholder="#{instructor.mistakes.form.placeholder}"
+                                           th:value="${mistakeSearchDTO.mistakeName}" class="enterName" name="mistakeName">
+                                    <input type="submit" th:value="#{courses.search.value}">
+                                </div>
+                            </form>
+                            <div class="selectSort">
+                                <select name="sort" form="my_form">
+                                    <option th:selected="${mistakeSearchDTO.sort.equals('name')}" value="name" th:text="#{instructor.mistakes.sort.select.name}"></option>
+                                    <option th:selected="${mistakeSearchDTO.sort.equals('penaltyPoint')}" value="penaltyPoint" th:text="#{instructor.mistakes.sort.select.points}"></option>
+                                </select>
+                                <select name="sortDirection" form="my_form">
+                                    <option th:selected="${mistakeSearchDTO.sortDirection.equals('ASC')}" value="ASC"
+                                            th:text="#{courses.sort.asc}"></option>
+                                    <option th:selected="${mistakeSearchDTO.sortDirection.equals('DESC')}" value="DESC"
+                                            th:text="#{courses.sort.desc}"></option>
+                                </select>
+                                <form action="/instructor/mistake/edit" method="get">
+                                    <input type="submit" th:value="#{instructor.mistakes.new.mistake}">
+                                </form>
+                            </div>
+                            <div class="showSearchRes">
+                                <form th:each="mistake : ${mistakes}" action="/instructor/mistake/edit" method="get" class="res">
+                                    <div class="accordion">
+                                        <p class="pesP" th:text="${mistake.getName()}"></p>
+                                        <input type="hidden" th:value="${mistake.getId()}" name="mistakeId">
+                                        <input type="submit" th:value="#{instructor.mistakes.details.value}">
+                                    </div>
+                                    <div class="panel">
+                                        <p th:text="#{instructor.mistakes.sort.select.description} + ': ' + ${mistake.getDescription()}"></p>
+                                        <p th:text="#{instructor.mistakes.sort.select.points} + ': ' + ${mistake.getPenaltyPoint()}"></p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="buttonsPages">
+                                <button th:if="${mistakes.totalPages!=1 && !mistakes.isFirst()}" type="submit" form="my_form"
+                                        name="pageNumber" value="0" th:text="#{elements.arrow.first}">
+                                </button>
+                                <button th:if="${mistakes.hasPrevious()}" type="submit" form="my_form" name="pageNumber"
+                                        th:value="${mistakes.previousPageable().pageNumber}" th:text="#{elements.arrow.previous}">
+                                </button>
+                                <button th:if="${mistakes.hasNext()}" type="submit" form="my_form" name="pageNumber"
+                                        th:value="${mistakes.nextPageable().pageNumber}" th:text="#{elements.arrow.next}">
+                                </button>
+                                <button th:if="${mistakes.totalPages!=1 && !mistakes.isLast()}" type="submit"
+                                        form="my_form" name="pageNumber" th:value="${mistakes.totalPages - 1}"
+                                        th:text="#{elements.arrow.last}">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="/common/fragment :: footer" class="footer"></footer>
+<script th:replace="/common/fragment :: js"></script>
+</body>
+</html>

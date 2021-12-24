@@ -21,30 +21,57 @@
 						<div class="inside">
 							<div class="f" th:text="#{courses.search.prompt}"></div>
 							<div class="search">
-								<form action="/student" method="get" class="find">
+								<form action="/student" method="get" class="find" id="my_form">
 									<div class="byName">
-										<input type="text" th:placeholder="#{courses.name.placeholder}" class="enterName" name="name">
+										<input type="text" th:placeholder="#{courses.name.placeholder}"
+											   th:value="${courseSearchDTO.courseName}" class="enterName" name="courseName">
 										<input type="submit" th:value="#{courses.search.value}">
 									</div>
 								</form>
-								<form action="/student" method="get" class="find">
-									<div class="buttonAll">
-										<input type="submit" th:value="#{courses.show.all.value}">
-									</div>
-								</form>
+
+								<div class="selectSort">
+									<p th:text="#{courses.sort.prompt}"></p>
+									<select name="sort" form="my_form">
+										<option th:selected="${courseSearchDTO.sort.equals('name')}" value="name" th:text="#{courses.sort.name}"></option>
+										<option th:selected="${courseSearchDTO.sort.equals('rating')}" value="rating" th:text="#{courses.sort.rating}"></option>
+										<option th:selected="${courseSearchDTO.sort.equals('category.name')}" value="category.name" th:text="#{courses.sort.category}"></option>
+										<option th:selected="${courseSearchDTO.sort.equals('lessonsAmount')}" value="lessonsAmount" th:text="#{courses.sort.lessons}"></option>
+										<option th:selected="${courseSearchDTO.sort.equals('price')}" value="price" th:text="#{courses.sort.price}"></option>
+									</select>
+									<select name="sortDirection" form="my_form">
+										<option th:selected="${courseSearchDTO.sortDirection.equals('ASC')}" value="ASC" th:text="#{courses.sort.asc}"></option>
+										<option th:selected="${courseSearchDTO.sortDirection.equals('DESC')}" value="DESC" th:text="#{courses.sort.desc}"></option>
+									</select>
+								</div>
 								<div class="showSearchRes">
-									<form th:each="course : ${courses}" action="/student/enrollUser" method="post" class="res">
+									<form th:each="course : ${courses.getCourses()}" action="/student/enrollUser" method="post" class="res">
 										<div class="accordion">
-											<p class="pesP" th:text="${course.getCourse().getName()}"></p>
-											<input type="hidden" th:value="${course.getCourse().getId()}" name="courseId">
-											<input type="submit" th:disabled="${course.isCurrentUserEnrolled()}" th:value="#{courses.enroll.value}">
+											<p class="pesP" th:text="${course.getName()}"></p>
+											<input type="hidden" th:value="${course.getId()}" name="courseId">
+											<input type="submit" th:disabled="${courses.getUserCourseMap().get(course.getId())}" th:value="#{courses.enroll.value}">
 										</div>
 										<div class="panel">
-											<p th:text="#{courses.hours.prompt} + ${': ' + course.getCourse().getLessonsAmount()}"></p>
-											<p th:text="#{courses.category.prompt} + ${': ' + course.getCourse().getCategory().getName()}"></p>
-											<p th:text="#{courses.rating.prompt} + ${': ' + course.getCourse().getRating() + '★'}"></p>
+											<p th:text="#{courses.hours.prompt} + ${': ' + course.getLessonsAmount()}"></p>
+											<p th:text="#{courses.category.prompt} + ${': ' + course.getCategory().getName()}"></p>
+											<p th:text="#{courses.rating.prompt} + ${': ' + course.getRating() + '★'}"></p>
+											<p th:text="#{courses.price.prompt} + ${': ' + course.getPrice()}"></p>
 										</div>
 									</form>
+								</div>
+								<div class="buttonsPages">
+									<button th:if="${courses.getCourses().totalPages!=1 && !courses.getCourses().isFirst()}" type="submit" form="my_form"
+											name="pageNumber" value="0" th:text="#{elements.arrow.first}">
+									</button>
+									<button th:if="${courses.getCourses().hasPrevious()}" type="submit" form="my_form" name="pageNumber"
+											th:value="${courses.getCourses().previousPageable().pageNumber}" th:text="#{elements.arrow.previous}">
+									</button>
+									<button th:if="${courses.getCourses().hasNext()}" type="submit" form="my_form" name="pageNumber"
+											th:value="${courses.getCourses().nextPageable().pageNumber}" th:text="#{elements.arrow.next}">
+									</button>
+									<button th:if="${courses.getCourses().totalPages!=1 && !courses.getCourses().isLast()}" type="submit"
+											form="my_form" name="pageNumber" th:value="${courses.getCourses().totalPages - 1}"
+											th:text="#{elements.arrow.last}">
+									</button>
 								</div>
 							</div>
 						</div>

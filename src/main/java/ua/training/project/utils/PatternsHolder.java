@@ -8,6 +8,10 @@ public interface PatternsHolder {
 
     String USERNAME_PATTERN = "^[A-Za-z][A-Za-z0-9_-]{3,25}$";
 
-    String MINIMAL_AGE = "18";
+    String PASSWORD_PATTERN = "^[A-Z][A-Za-z0-9_-]{5,25}$";
+
+    Integer MINIMAL_AGE = 18;
+
+    Integer MAX_AGE = 100;
 
 }

@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -17,10 +20,14 @@ public class Mistake {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 5, max = 40)
     private String name;
 
+    @Size(min = 10)
     private String description;
 
+    @Max(100)
+    @Min(1)
     private Integer penaltyPoint;
 
 }

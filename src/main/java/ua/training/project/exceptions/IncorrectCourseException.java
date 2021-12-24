@@ -1,9 +1,9 @@
 package ua.training.project.exceptions;
 
-public class IncorrectCourseException extends RuntimeException{
+public class IncorrectCourseException extends EntityNotFoundException{
 
     public IncorrectCourseException() {
-        super("Inc");
+        super("exception.course.id");
     }
 
 }

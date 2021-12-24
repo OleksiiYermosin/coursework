@@ -10,8 +10,11 @@ import ua.training.project.dto.SearchDTO;
 import ua.training.project.dto.StudentRatingDTO;
 import ua.training.project.dto.UserCourseDTO;
 import ua.training.project.dto.UserEvaluationDTO;
+import ua.training.project.dto.input.StudentCourseInfoSearchDTO;
 import ua.training.project.entities.*;
+import ua.training.project.exceptions.IncorrectUserException;
 import ua.training.project.repositories.*;
+import ua.training.project.utils.ConstantHolder;
 
 import static ua.training.project.utils.ConstantHolder.*;
 
@@ -56,21 +59,29 @@ public class InstructorService {
     }
 
     public UserCourseDTO getUserEvaluationInfo(Long userId) {
-        return UserCourseDTO.builder().user(userRepository.findById(userId).orElseThrow(RuntimeException::new)).
+        return UserCourseDTO.builder().user(userRepository.findById(userId).orElseThrow(IncorrectUserException::new)).
                 mistakes(mistakeRepository.findAll()).events(eventRepository.findAll()).build();
+    }
+
+    public Page<Training> getUserCourses(StudentCourseInfoSearchDTO searchDTO, Long userId){
+        return trainingRepository
+                .findByCourseNameContainingAndEventNameContainingAndCourseCategoryNameContainingAndUserIdEquals(
+                        searchDTO.getCourseName(), searchDTO.getEventName(), searchDTO.getCategoryName(),
+                        userId, PageRequest.of(searchDTO.getPageNumber(), MAX_RECORDS_PER_PAGE,
+                                Sort.by(Sort.Direction.valueOf(searchDTO.getSortDirection()), searchDTO.getSort()))
+                );
     }
 
     @Transactional
     public void evaluateUser(Long studentId, UserEvaluationDTO userEvaluationDTO) {
-        User user = userRepository.findById(studentId).orElseThrow(RuntimeException::new);
-        Course course = courseRepository.findById(userEvaluationDTO.getCourseId()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(studentId).orElseThrow(IncorrectUserException::new);
+        Course course = courseRepository.getById(userEvaluationDTO.getCourseId());
         List<Mistake> mistakes = mistakeService.getMistakesById(userEvaluationDTO.getMistakesList());
         if (!isAvailableLessonsExist(user, course)) {
             throw new RuntimeException();
         }
         if (userEvaluationDTO.getEventId() != -1) {
-            Training userTraining = Training.builder().user(user).event(
-                    eventRepository.findById(userEvaluationDTO.getEventId()).orElseThrow(RuntimeException::new))
+            Training userTraining = Training.builder().user(user).event(eventRepository.getById(userEvaluationDTO.getEventId()))
                     .course(course).mistakes(mistakes).date(LocalDate.now()).mark(calculateMark(mistakes)).build();
             trainingRepository.save(userTraining);
         } else {
@@ -107,7 +118,7 @@ public class InstructorService {
 
     private BigDecimal calculateAverageMark(List<Training> trainingsList) {
         BigDecimal result = trainingsList.size() == 0 ? BigDecimal.ZERO :
-                BigDecimal.valueOf(trainingsList.stream().mapToInt(Training::getMark).sum() / trainingsList.size()); //*percentOfAttendedLessons?
+                BigDecimal.valueOf(trainingsList.stream().mapToInt(Training::getMark).sum() / trainingsList.size());
         return result.setScale(2, RoundingMode.CEILING);
 
     }

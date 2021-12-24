@@ -29,24 +29,27 @@
 									<p th:text="#{instructor.student.evaluation.page.user.surname} + ${userCourseDTO.user.surname}"></p>
 									<p th:text="#{instructor.student.evaluation.page.user.age} + ${userCourseDTO.user.age} + #{instructor.student.evaluation.page.user.age.suffix}"></p>
 								</div>
+								<form class="userDet" method="get" th:action="@{/instructor/user/{id}/courses(id=${userCourseDTO.user.id})}">
+									<input type="submit" th:value="#{instructor.student.evaluation.page.all.courses}">
+								</form>
 							</div>
 							<div class="search">
 								<form th:action="@{/instructor/user/{id}/evaluate(id=${userCourseDTO.getUser().id})}" th:object="${userEvaluationDTO}"
 									  method="post" class="mark">
 									<div class="selects">
-										<select name="courseId" class="events">
+										<select name="courseId" class="events" required>
 											<option th:each="course: ${userCourseDTO.user.attendances}"
 													th:selected="${userEvaluationDTO.courseId != null && userEvaluationDTO.courseId.equals(course.course.id)}"
 													th:value="${course.course.id}" th:text="${course.course.name}"></option>
 										</select>
-										<select name="eventId" class="events">
+										<select name="eventId" class="events" required>
 											<option value="-1" th:text="#{instructor.student.evaluation.page.missed.event}"></option>
 											<option th:each="event: ${userCourseDTO.events}"
 													th:selected="${userEvaluationDTO.eventId != null && userEvaluationDTO.eventId.equals(event.id)}"
 													th:value="${event.id}" th:text="${event.name}"></option>
 										</select>
 										<div class="mist">
-											<select name="mistakeId" class="events third">
+											<select name="mistakeId" class="events third" required>
 												<option th:each="mistake: ${userCourseDTO.mistakes}" th:value="${mistake.id}" th:text="${mistake.name}"></option>
 											</select>
 											<input type="submit" name="action" value="+">
@@ -62,7 +65,7 @@
 										<div class="student">
 											<p class="pesP" th:text="${mistake.name}"></p>
 											<input type="hidden" th:value="${mistake.id}" name="mistakeId">
-											<input type="submit">
+											<input type="submit" th:value="#{instructor.student.evaluation.page.remove.mistake}">
 										</div>
 									</form>
 								</div>
@@ -75,6 +78,5 @@
 	</section>
 	<footer th:replace="/common/fragment :: footer" class="footer"></footer>
 	<script th:replace="/common/fragment :: js"></script>
-	<script src="js/main.js"></script>
 </body>
 </html>

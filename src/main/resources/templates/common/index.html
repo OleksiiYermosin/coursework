@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +14,23 @@
 	<header th:replace="/common/fragment :: header" class="header">
 	</header>
 	<section class="content-fs">
-		<div class="container">
-			<div class="row-autorize">
-				<div class="contentRow">
-					<div class="contentPart">
-						<div class="intro">
-							<div class="h-main">
-								<p th:text="#{index.page.name}"></p>
-							</div>
-							<div class="h-small">
-								<p th:text="#{index.page.prompt}"></p>
-							</div>
-							<div class="go-to">
-								<form method="get" action="/student/" class="buttonAll">
-									<input type="submit" th:value="#{index.view.courses}">
-								</form>
+		<div id="wrapper-snow">
+			<div class="container">
+				<div class="row-autorize">
+					<div class="contentRow">
+						<div class="contentPart">
+							<div class="intro">
+								<div class="h-main">
+									<p th:text="#{index.page.name}"></p>
+								</div>
+								<div class="h-small">
+									<p th:text="#{index.page.prompt}"></p>
+								</div>
+								<div class="go-to">
+									<form sec:authorize="hasRole('STUDENT') || !isAuthenticated()" method="get" action="/student/" class="buttonAll">
+										<input type="submit" th:value="#{index.view.courses}">
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>

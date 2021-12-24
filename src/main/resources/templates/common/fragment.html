@@ -1,4 +1,5 @@
-<link th:fragment="css" rel="stylesheet" th:href="@{/css/main.css}">
+<link th:fragment="css" rel="stylesheet" th:href="@{${#themes.code('styleSheet')}}">
+
 
 <script th:fragment="js" th:src="@{/js/main.js}"></script>
 
@@ -6,20 +7,46 @@
     <div class="nav">
         <div class="container">
             <div class="text">
-                <div class="title"><a href="/">Driving School</a></div>
+                <div class="title">
+                    <div class="cap"></div>
+                    <a href="/">Driving School</a>
+                </div>
                 <div class="users">
                     <div sec:authorize="hasRole('STUDENT')" class="exit"><a href="/student/" th:text="#{header.menu.courses}"></a></div>
-                    <div sec:authorize="isAuthenticated()" class="adminName"><a th:text="${user.getName()}" href="/student/myCourses"></a></div>
+                    <div sec:authorize="hasRole('STUDENT')" class="adminName">
+                        <a th:text="${user.getName()}" href="/student/myCourses"></a>
+                    </div>
+                    <div sec:authorize="hasRole('INSTRUCTOR')" class="adminName">
+                        <a th:text="#{instructor.add.course.title}" href="/instructor/addCourse"></a>
+                    </div>
+                    <div sec:authorize="hasRole('INSTRUCTOR')" class="adminName">
+                        <a th:text="#{instructor.mistakes.title}" href="/instructor/mistakes"></a>
+                    </div>
+                    <div sec:authorize="hasRole('INSTRUCTOR')" class="adminName">
+                        <a th:text="#{student.rating.page.title}" href="/instructor/studentRating"></a>
+                    </div>
+                    <div sec:authorize="hasRole('INSTRUCTOR')" class="adminName">
+                        <a th:text="${user.getName()}" href="/instructor"></a>
+                    </div>
                     <div sec:authorize="isAuthenticated()" class="exit"><a href="/logout" th:text="#{header.logout.value}"></a></div>
                     <div sec:authorize="!isAuthenticated()" class="exit"><a href="/login" th:text="#{login.page.action}"></a></div>
                     <form class="local" method="get" th:action="${#httpServletRequest.requestURI}">
                         <input type="submit" name="locale" th:value="#{locale.button.text}">
                     </form>
+
+                    <!--Для новогодней кнопки-->
+                    <form class="local" method="get" th:action="${#httpServletRequest.requestURI}">
+                        <button type="submit" name="theme" th:value="${#themes.code('styleSheet').equals('/css/main.css') ? 'client-theme2' : 'client-theme1'}"
+                        th:text="${#themes.code('styleSheet').equals('/css/main.css') ? 'N' : 'C'}">
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
+        <div class="lamps"></div>
     </div>
 </header>
+
 
 <footer th:fragment="footer" class="footer">
     <div class="container">
