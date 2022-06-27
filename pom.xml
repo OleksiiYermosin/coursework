@@ -126,6 +126,7 @@
             </plugin>
 
         </plugins>
+        <finalName>spring-boot-coursework</finalName>
     </build>
 
 </project>
